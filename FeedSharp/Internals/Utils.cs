@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Xml;
 
 namespace FeedSharp.Internals;
 
@@ -31,4 +32,15 @@ internal static class Utils
     /// <returns></returns>
     public static string ToUtcString(DateTime dateTime) =>
         dateTime.ToUniversalTime().ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture);
+    
+    public static async Task WriteElementAsync(XmlWriter writer, string name, string? val)
+    {
+        if (val is null)
+            return;
+
+        await writer.WriteStartElementAsync("", name, null);  
+        await writer.WriteStringAsync(val);  
+        await writer.WriteEndElementAsync();
+    }
+    
 }

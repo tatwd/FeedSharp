@@ -37,7 +37,7 @@ internal class Atom1
 
         foreach (var el in elements)
         {
-            await WriteElementAsync(writer, el.name, el.val);
+            await Utils.WriteElementAsync(writer, el.name, el.val);
         }
 
         await WriteAuthorElementAsync(writer, options.Author);
@@ -52,10 +52,10 @@ internal class Atom1
         await WriteLinkElementAsync(writer, new Link{ Rel = "hub", Href = hubLink });
 
         
-        await WriteElementAsync(writer, "subtitle", options.Description);
-        await WriteElementAsync(writer, "logo", options.Image);
-        await WriteElementAsync(writer, "icon", options.Favicon);
-        await WriteElementAsync(writer, "rights", options.Copyright);
+        await Utils.WriteElementAsync(writer, "subtitle", options.Description);
+        await Utils.WriteElementAsync(writer, "logo", options.Image);
+        await Utils.WriteElementAsync(writer, "icon", options.Favicon);
+        await Utils.WriteElementAsync(writer, "rights", options.Copyright);
 
         foreach (var category in _feed.Categories)
         {
@@ -84,9 +84,9 @@ internal class Atom1
         await writer.WriteStartElementAsync("", "entry", null);
 
         await WriteHtmlCdataElementAsync(writer, "title", item.Title);
-        await WriteElementAsync(writer, "id", Utils.Sanitize(item.Id ?? item.Link));
+        await Utils.WriteElementAsync(writer, "id", Utils.Sanitize(item.Id ?? item.Link));
         await WriteLinkElementAsync(writer, new Link { Href = item.Link });
-        await WriteElementAsync(writer, "updated", Utils.ToIsoString(item.Date));
+        await Utils.WriteElementAsync(writer, "updated", Utils.ToIsoString(item.Date));
 
         await WriteHtmlCdataElementAsync(writer, "summary", item.Description);
         await WriteHtmlCdataElementAsync(writer, "content", item.Content);
@@ -103,23 +103,13 @@ internal class Atom1
         }
 
         if (item.Published.HasValue)
-            await WriteElementAsync(writer, "published", Utils.ToIsoString(item.Published.Value));
+            await Utils.WriteElementAsync(writer, "published", Utils.ToIsoString(item.Published.Value));
         
-        await WriteElementAsync(writer, "rights", item.Copyright);
+        await Utils.WriteElementAsync(writer, "rights", item.Copyright);
         
         await writer.WriteEndElementAsync();  
     }
 
-    private static async Task WriteElementAsync(XmlWriter writer, string name, string? val)
-    {
-        if (val is null)
-            return;
-
-        await writer.WriteStartElementAsync("", name, null);  
-        await writer.WriteStringAsync(val);  
-        await writer.WriteEndElementAsync();
-    }
-    
     private static async Task WriteHtmlCdataElementAsync(XmlWriter writer, string name, string? html)
     {
         if (html is null)
@@ -153,9 +143,9 @@ internal class Atom1
             return;
         
         await writer.WriteStartElementAsync("", "author", null);
-        await WriteElementAsync(writer, "name", author.Name);
-        await WriteElementAsync(writer, "email", author.Email);
-        await WriteElementAsync(writer, "link", author.Link);
+        await Utils.WriteElementAsync(writer, "name", author.Name);
+        await Utils.WriteElementAsync(writer, "email", author.Email);
+        await Utils.WriteElementAsync(writer, "link", author.Link);
         await writer.WriteEndElementAsync();
     }
     
