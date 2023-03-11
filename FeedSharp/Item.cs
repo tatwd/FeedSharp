@@ -20,9 +20,9 @@ public class Item
     
     public string? Guid { get; set; }
     
-    public string? Image { get; set; }
-    public string? Audio { get; set; }
-    public string? Video { get; set; }
+    public Enclosure? Image { get; set; }
+    public Enclosure? Audio { get; set; }
+    public Enclosure? Video { get; set; }
     public Enclosure? Enclosure { get; set; }
 
     public Author[] Author { get; set; } = Array.Empty<Author>();

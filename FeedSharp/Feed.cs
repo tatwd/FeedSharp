@@ -27,4 +27,7 @@ public sealed class Feed
     
     public Task<string> ToAtom1Async() => new Atom1(this).RenderAsync();
 
+    public string ToRss2() => new Rss2(this).Render();
+    
+    public Task<string> ToRss1Async() => new Rss2(this).RenderAsync();
 }
