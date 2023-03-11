@@ -2,5 +2,6 @@
 
 public class FeedLinks
 {
-    public string? Atom1 { get; set; }
+    public string? Atom { get; set; }
+    public string? Rss { get; set; }
 }

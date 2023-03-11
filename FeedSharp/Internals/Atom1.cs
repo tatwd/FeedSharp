@@ -45,7 +45,7 @@ internal class Atom1
         var alternateLink = Utils.Sanitize(options.Link);
         await WriteLinkElementAsync(writer, new Link { Rel = "alternate", Href = alternateLink  });
 
-        var atomLink = Utils.Sanitize(options.Feed ?? options.FeedLinks?.Atom1);
+        var atomLink = Utils.Sanitize(options.Feed ?? options.FeedLinks?.Atom);
         await WriteLinkElementAsync(writer, new Link{ Rel = "self", Href = atomLink });
         
         var hubLink = Utils.Sanitize(options.Hub);
