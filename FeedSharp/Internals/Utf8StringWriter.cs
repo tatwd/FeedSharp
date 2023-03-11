@@ -2,7 +2,7 @@
 
 namespace FeedSharp.Internals;
 
-public class Utf8StringWriter : StringWriter
+internal class Utf8StringWriter : StringWriter
 {
     public Utf8StringWriter() { }
 

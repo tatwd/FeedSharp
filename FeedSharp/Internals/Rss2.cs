@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace FeedSharp.Internals;
 
-public class Rss2
+internal class Rss2
 {
     private readonly Feed _feed;
 
