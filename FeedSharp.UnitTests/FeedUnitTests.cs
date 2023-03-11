@@ -3,6 +3,55 @@ namespace FeedSharp.UnitTests;
 public class FeedUnitTests
 {
     [Fact]
+    public void ToAtom1_mini_setup_without_items_ok()
+    {
+        var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
+        {
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+        });
+        var atom1 = mockFeed.ToAtom1();
+        
+        const string expected = """
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://example.com/</id>
+  <title>Hello FeedSharp</title>
+  <updated>2023-03-01T12:00:00.000Z</updated>
+  <generator>https://github.com/tatwd/FeedSharp</generator>
+</feed>
+""";
+        Assert.Equal(expected, atom1);
+    }
+    
+    [Fact]
+    public void ToAtom1_mini_setup_with_items_ok()
+    {
+        var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
+        {
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+        });
+        mockFeed.AddItem(new Item("foo", "https://example.com/foo", new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc)));
+        var atom1 = mockFeed.ToAtom1();
+
+        const string expected = """
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://example.com/</id>
+  <title>Hello FeedSharp</title>
+  <updated>2023-03-01T12:00:00.000Z</updated>
+  <generator>https://github.com/tatwd/FeedSharp</generator>
+  <entry>
+    <title type="html"><![CDATA[foo]]></title>
+    <id>https://example.com/foo</id>
+    <link href="https://example.com/foo" />
+    <updated>2023-01-01T00:00:00.000Z</updated>
+  </entry>
+</feed>
+""";
+        Assert.Equal(expected, atom1);
+    }
+    
+    [Fact]
     public void ToAtom1_ok()
     {
         var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
@@ -62,6 +111,61 @@ public class FeedUnitTests
 </feed>
 """;
         Assert.Equal(expected, atom1);
+    }
+    
+    
+    [Fact]
+    public void ToRss2_mini_setup_without_items_ok()
+    {
+        var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
+        {
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+        });
+        var rss2 = mockFeed.ToRss2();
+
+        const string expected = """
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Hello FeedSharp</title>
+    <lastBuildDate>Wed, 01 Mar 2023 12:00:00 GMT</lastBuildDate>
+    <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <generator>https://github.com/tatwd/FeedSharp</generator>
+  </channel>
+</rss>
+""";
+        Assert.Equal(expected, rss2);
+    }
+    
+
+    [Fact]
+    public void ToRss2_mini_setup_with_items_ok()
+    {
+        var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
+        {
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+        });
+        mockFeed.AddItem(new Item("foo", "https://example.com/foo", new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc)));
+        var rss2 = mockFeed.ToRss2();
+
+        const string expected = """
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Hello FeedSharp</title>
+    <lastBuildDate>Wed, 01 Mar 2023 12:00:00 GMT</lastBuildDate>
+    <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <generator>https://github.com/tatwd/FeedSharp</generator>
+    <item>
+      <title><![CDATA[foo]]></title>
+      <link>https://example.com/foo</link>
+      <guid>https://example.com/foo</guid>
+      <pubDate>Sun, 01 Jan 2023 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
+""";
+        Assert.Equal(expected, rss2);
     }
     
     [Fact]
@@ -127,8 +231,4 @@ public class FeedUnitTests
 """;
         Assert.Equal(expected, rss2);
     }
-    
-    
-    
-    
 }
