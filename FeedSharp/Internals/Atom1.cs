@@ -7,10 +7,7 @@ internal class Atom1
 {
     private readonly Feed _feed;
     
-    public Atom1(Feed feed)
-    {
-        _feed = feed;
-    }
+    public Atom1(Feed feed) => _feed = feed;
 
     public string Render() => RenderAsync().GetAwaiter().GetResult();
 
