@@ -10,7 +10,7 @@ A feed generator for C#/.NET. This project is inspired [jpmonette/feed](https://
 ## Install
 
 ```
-dotnet add package FeedSharp --prerelease
+dotnet add package FeedSharp --version 0.1.3
 ```
 
 ## Example
