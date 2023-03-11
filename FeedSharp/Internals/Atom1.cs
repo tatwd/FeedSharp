@@ -86,11 +86,7 @@ internal class Atom1
     {
         await writer.WriteStartElementAsync("", "entry", null);
 
-        await writer.WriteStartElementAsync("", "title", null);  
-        await writer.WriteAttributeStringAsync(null, "type", null, "html");  
-        await writer.WriteCDataAsync(item.Title);  
-        await writer.WriteEndElementAsync();
-
+        await WriteHtmlCdataElementAsync(writer, "title", item.Title);
         await WriteElementAsync(writer, "id", Utils.Sanitize(item.Id ?? item.Link));
         await WriteLinkElementAsync(writer, new Link { Href = item.Link });
         await WriteElementAsync(writer, "updated", Utils.ToIsoString(item.Date));
