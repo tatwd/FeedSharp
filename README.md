@@ -28,15 +28,9 @@ var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp
     Updated = new DateTime(2023, 3, 1, 12, 0, 0)
 });
 mockFeed.AddCategory("foo");
-mockFeed.AddCategory("bar");
-
 mockFeed.AddItem(new Item("foo", "https://example.com/foo", new DateTime(2023, 1, 1))
 {
     Description = "foo post"
-});
-mockFeed.AddItem(new Item("bar", "https://example.com/bar", new DateTime(2023, 1, 2))
-{
-    Description = "bar post"
 });
 
 // atom1
