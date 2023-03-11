@@ -70,20 +70,4 @@ internal static class Utils
         await writer.WriteCDataAsync(cdata);  
         await writer.WriteEndElementAsync();
     }
-    
-    public static async Task WriteCategoryElementAsync(XmlWriter writer, Category category)
-    {
-        await writer.WriteStartElementAsync("", "category", null);  
-        
-        if (category.Name != null)
-            await writer.WriteAttributeStringAsync(null, "label", null, category.Name);  
-        
-        if (category.Scheme != null)
-            await writer.WriteAttributeStringAsync(null, "scheme", null, category.Scheme);  
-
-        if (category.Term != null)
-            await writer.WriteAttributeStringAsync(null, "term", null, category.Term);
-        
-        await writer.WriteEndElementAsync();
-    }
 }
