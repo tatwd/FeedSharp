@@ -1,6 +1,6 @@
 # FeedSharp
 
-A feed generator for C#/.NET.
+A feed generator for C#/.NET. This project is inspired [jpmonette/feed](https://github.com/jpmonette/feed).
 
 ## Support 
 
