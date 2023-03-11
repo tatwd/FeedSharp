@@ -42,5 +42,48 @@ internal static class Utils
         await writer.WriteStringAsync(val);  
         await writer.WriteEndElementAsync();
     }
+
+    public static Task WriteHtmlCdataElementAsync(XmlWriter writer, string name, string? html) =>
+        WriteHtmlCdataElementAsync(writer, name, html, true);
+
+    public static Task WriteCdataElementAsync(XmlWriter writer, string name, string? cdata) =>
+        WriteHtmlCdataElementAsync(writer, name, cdata, false);
+
+    private static async Task WriteHtmlCdataElementAsync(XmlWriter writer, string name, string? cdata, bool isHtml)
+    {
+        if (cdata is null)
+            return;
+
+        var nameWithPrefix = name.Split(':');
+        if (nameWithPrefix.Length == 2)
+        {
+            await writer.WriteStartElementAsync(nameWithPrefix[0], nameWithPrefix[1], null);
+        }
+        else
+        {
+            await writer.WriteStartElementAsync("", name, null);
+        }
+        
+        if (isHtml)
+            await writer.WriteAttributeStringAsync(null, "type", null, "html");  
+        
+        await writer.WriteCDataAsync(cdata);  
+        await writer.WriteEndElementAsync();
+    }
     
+    public static async Task WriteCategoryElementAsync(XmlWriter writer, Category category)
+    {
+        await writer.WriteStartElementAsync("", "category", null);  
+        
+        if (category.Name != null)
+            await writer.WriteAttributeStringAsync(null, "label", null, category.Name);  
+        
+        if (category.Scheme != null)
+            await writer.WriteAttributeStringAsync(null, "scheme", null, category.Scheme);  
+
+        if (category.Term != null)
+            await writer.WriteAttributeStringAsync(null, "term", null, category.Term);
+        
+        await writer.WriteEndElementAsync();
+    }
 }

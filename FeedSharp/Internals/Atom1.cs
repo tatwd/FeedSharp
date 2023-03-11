@@ -59,7 +59,7 @@ internal class Atom1
 
         foreach (var category in _feed.Categories)
         {
-            await WriteCategoryElementAsync(writer, new Category { Term = category });
+            await Utils.WriteCategoryElementAsync(writer, new Category { Term = category });
         }
 
         foreach (var contributor in _feed.Contributors)
@@ -83,18 +83,17 @@ internal class Atom1
     {
         await writer.WriteStartElementAsync("", "entry", null);
 
-        await WriteHtmlCdataElementAsync(writer, "title", item.Title);
+        await Utils.WriteHtmlCdataElementAsync(writer, "title", item.Title);
         await Utils.WriteElementAsync(writer, "id", Utils.Sanitize(item.Id ?? item.Link));
         await WriteLinkElementAsync(writer, new Link { Href = item.Link });
         await Utils.WriteElementAsync(writer, "updated", Utils.ToIsoString(item.Date));
 
-        await WriteHtmlCdataElementAsync(writer, "summary", item.Description);
-        await WriteHtmlCdataElementAsync(writer, "content", item.Content);
-
+        await Utils.WriteHtmlCdataElementAsync(writer, "summary", item.Description);
+        await Utils.WriteHtmlCdataElementAsync(writer, "content", item.Content);
 
         foreach (var category in item.Category)
         {
-            await WriteCategoryElementAsync(writer, category);
+            await Utils.WriteCategoryElementAsync(writer, category);
         }
         
         foreach (var author in item.Author)
@@ -110,33 +109,6 @@ internal class Atom1
         await writer.WriteEndElementAsync();  
     }
 
-    private static async Task WriteHtmlCdataElementAsync(XmlWriter writer, string name, string? html)
-    {
-        if (html is null)
-            return;
-
-        await writer.WriteStartElementAsync("", name, null);  
-        await writer.WriteAttributeStringAsync(null, "type", null, "html");  
-        await writer.WriteCDataAsync(html);  
-        await writer.WriteEndElementAsync();
-    }
-    
-    private static async Task WriteCategoryElementAsync(XmlWriter writer, Category category)
-    {
-        await writer.WriteStartElementAsync("", "category", null);  
-        
-        if (category.Name != null)
-            await writer.WriteAttributeStringAsync(null, "label", null, category.Name);  
-        
-        if (category.Scheme != null)
-            await writer.WriteAttributeStringAsync(null, "scheme", null, category.Scheme);  
-
-        if (category.Term != null)
-            await writer.WriteAttributeStringAsync(null, "term", null, category.Term);
-        
-        await writer.WriteEndElementAsync();
-    }
-    
     private static async Task WriteAuthorElementAsync(XmlWriter writer, Author? author)
     {
         if (author is null)
