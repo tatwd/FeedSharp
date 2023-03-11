@@ -5,7 +5,7 @@ A feed generator for C#/.NET. This project is inspired [jpmonette/feed](https://
 ## Support 
 
 - [x] Atom 1.0
-- [ ] RSS 2.0
+- [x] RSS 2.0
 
 ## Install
 
@@ -38,4 +38,14 @@ mockFeed.AddItem(new Item("bar", "https://example.com/bar", new DateTime(2023, 1
 {
     Description = "bar post"
 });
+
+// atom1
+mockFeed.ToAtom1();
+// or
+await mockFeed.ToAtom1Async();
+
+// rss2
+mockFeed.ToRss2();
+// or
+await mockFeed.ToRss2Async();
 ```
