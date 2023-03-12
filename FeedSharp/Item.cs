@@ -30,6 +30,6 @@ public class Item
     
     public DateTime? Published { get; set; }
     public string? Copyright { get; set; }
-    
-    public Extension[]? Extensions { get; set; }
+
+    public Extension[] Extensions { get; set; } = Array.Empty<Extension>();
 }

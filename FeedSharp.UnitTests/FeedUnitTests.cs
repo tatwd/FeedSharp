@@ -231,4 +231,114 @@ public class FeedUnitTests
 """;
         Assert.Equal(expected, rss2);
     }
+    
+    [Fact]
+    public void ToJson1_mini_setup_without_items_ok()
+    {
+        var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
+        {
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+        });
+        var json1 = mockFeed.ToJson1();
+
+        const string expected = """
+{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "Hello FeedSharp",
+  "items": []
+}
+""";
+        Assert.Equal(expected, json1);
+    }
+    
+    [Fact]
+    public void ToJson1_mini_setup_with_items_ok()
+    {
+        var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
+        {
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+        });
+        mockFeed.AddItem(new Item("foo", "https://example.com/foo", new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc)));
+        var json1 = mockFeed.ToJson1();
+
+        const string expected = """
+{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "Hello FeedSharp",
+  "items": [
+    {
+      "url": "https://example.com/foo",
+      "title": "foo",
+      "date_modified": "2023-01-01T00:00:00.000Z"
+    }
+  ]
+}
+""";
+        Assert.Equal(expected, json1);
+    }
+    
+    [Fact]
+    public void ToJson1_ok()
+    {
+        var mockFeed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
+        {
+            Description = "this is a description",
+            Link = "https://example.com/",
+            Author = new Author
+            {
+                Name = "_king",
+                Email = "tatwd@exmaple.com"
+            },
+            Feed = "https://example.com/feed",
+            FeedLinks = new FeedLinks
+            {
+                Json = "https://example.com/feed.json"
+            },
+            Hub = "https://example.com/hub",
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+        });
+
+        mockFeed.AddItem(new Item("foo", "https://example.com/foo", new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+        {
+            Description = "foo post",
+            Content = "foo content",
+            Image = new Enclosure("https://exmaple.com/img.png"),
+            Category = new[] { new Category { Name = "test" } }
+        });
+        
+        mockFeed.AddExtension(new Extension("foo_ext", "hello"));
+        mockFeed.AddExtension(new Extension("bar_ext", new { baz = true }));
+        
+        var json1 = mockFeed.ToJson1();
+
+        const string expected = """
+{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "Hello FeedSharp",
+  "home_page_url": "https://example.com/",
+  "feed_url": "https://example.com/feed.json",
+  "description": "this is a description",
+  "foo_ext": "hello",
+  "bar_ext": {
+    "baz": true
+  },
+  "items": [
+    {
+      "content_html": "foo content",
+      "url": "https://example.com/foo",
+      "title": "foo",
+      "summary": "foo post",
+      "image": {
+        "url": "https://exmaple.com/img.png"
+      },
+      "date_modified": "2023-01-01T00:00:00.000Z",
+      "tags": [
+        "test"
+      ]
+    }
+  ]
+}
+""";
+        Assert.Equal(expected, json1);
+    }
 }

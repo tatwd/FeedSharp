@@ -30,4 +30,8 @@ public sealed class Feed
     public string ToRss2() => new Rss2(this).Render();
     
     public Task<string> ToRss2Async() => new Rss2(this).RenderAsync();
+    
+    public string ToJson1() => new Json1(this).Render();
+    
+    public Task<string> ToJson1Async() => new Json1(this).RenderAsync();
 }
