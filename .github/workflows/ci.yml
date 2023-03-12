@@ -33,7 +33,7 @@ jobs:
         dotnet-version: 7.x
 
     - name: Restore dependencies by dotnet sdk
-      if: steps.cache.outputs.cache-hit != 'true'
+      # if: steps.cache.outputs.cache-hit != 'true'
       run: dotnet restore $SOLUTION
 
     - name: Build
