@@ -2,9 +2,9 @@
 
     <PropertyGroup>
         <PackageId>FeedSharp</PackageId>
-        <Version>0.1.3</Version>
+        <Version>0.1.4</Version>
         <Description>A feed generator for C#/.NET.</Description>
-        <PackageTags>Feed Generator;RSS;Atom</PackageTags>
+        <PackageTags>Feed Generator;RSS;Atom;JSON;XML</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
