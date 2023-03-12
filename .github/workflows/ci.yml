@@ -17,15 +17,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Setup NuGet
-      uses: nuget/setup-nuget@v1
-      with:
-        nuget-version: '5.x'
-    - uses: actions/cache@v1
-      id: cache
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+    # - name: Setup NuGet
+    #   uses: nuget/setup-nuget@v1
+    #   with:
+    #     nuget-version: '5.x'
+    # - uses: actions/cache@v1
+    #   id: cache
+    #   with:
+    #     path: ~/.nuget/packages
+    #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
@@ -33,11 +33,11 @@ jobs:
         dotnet-version: 7.x
 
     - name: Restore dependencies by dotnet sdk
-      if: steps.cache.outputs.cache-hit != 'true'
+      # if: steps.cache.outputs.cache-hit != 'true'
       run: dotnet restore $SOLUTION
 
     - name: Build
-      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG
+      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
 
     - name: Run tests
       run: dotnet test --configuration $BUILD_CONFIG --no-restore --no-build --verbosity normal
