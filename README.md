@@ -41,7 +41,8 @@ var feed = new Feed(new FeedOptions("https://example.com/", "Hello FeedSharp")
     },
     Hub = "https://example.com/hub",
     Generator = "awesome",
-    Updated = DateTime.Now
+    Updated = DateTime.Now,
+    Ttl = 36000
 });
 feed.AddContributor(new Author
 {
