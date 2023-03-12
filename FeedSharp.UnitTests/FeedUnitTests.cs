@@ -182,7 +182,8 @@ public class FeedUnitTests
             },
             Feed = "https://example.com/feed",
             Hub = "https://example.com/hub",
-            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc)
+            Updated = new DateTime(2023, 3, 1, 12, 0, 0, DateTimeKind.Utc),
+            Ttl = 3600
         });
         mockFeed.AddCategory("foo");
         mockFeed.AddCategory("bar");
@@ -208,6 +209,7 @@ public class FeedUnitTests
     <lastBuildDate>Wed, 01 Mar 2023 12:00:00 GMT</lastBuildDate>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <generator>https://github.com/tatwd/FeedSharp</generator>
+    <ttl>3600</ttl>
     <category>foo</category>
     <category>bar</category>
     <atom:link href="https://example.com/hub" rel="hub" />
